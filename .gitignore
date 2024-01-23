@@ -1,0 +1,18 @@
+mysql
+.git
+
+# CakePHP 5
+
+portal/vendor/*
+portal/tmp/cache/models/*
+!portal/tmp/cache/models/empty
+portal/tmp/cache/persistent/*
+!portal/tmp/cache/persistent/empty
+portal/tmp/cache/views/*
+!portal/tmp/cache/views/empty
+portal/tmp/sessions/*
+!portal/tmp/sessions/empty
+portal/tmp/tests/*
+!portal!/tmp/tests/empty
+portal/logs/*
+!/portal/logs/empty
