@@ -14,7 +14,6 @@ use Cake\Http\Response;
  */
 class UsersController extends AppController
 {
-
     /**
      * Include methods for user authentication.
      *
@@ -38,7 +37,7 @@ class UsersController extends AppController
         parent::beforeFilter($event);
 
         // Allow unauthenticated access to the 'login' action
-         $this->Authentication->allowUnauthenticated(['login', 'index']);
+        $this->Authentication->allowUnauthenticated(["login", "index"]);
 
         return null;
     }
@@ -53,7 +52,7 @@ class UsersController extends AppController
         $query = $this->Users->find();
         $users = $this->paginate($query);
 
-        $this->set(compact('users'));
+        $this->set(compact("users"));
     }
 
     /**
@@ -66,7 +65,7 @@ class UsersController extends AppController
     public function view($id = null)
     {
         $user = $this->Users->get($id, contain: []);
-        $this->set(compact('user'));
+        $this->set(compact("user"));
     }
 
     /**
@@ -77,16 +76,18 @@ class UsersController extends AppController
     public function add()
     {
         $user = $this->Users->newEmptyEntity();
-        if ($this->request->is('post')) {
+        if ($this->request->is("post")) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
-                $this->Flash->success(__('The user has been saved.'));
+                $this->Flash->success(__("The user has been saved."));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(["action" => "index"]);
             }
-            $this->Flash->error(__('The user could not be saved. Please, try again.'));
+            $this->Flash->error(
+                __("The user could not be saved. Please, try again.")
+            );
         }
-        $this->set(compact('user'));
+        $this->set(compact("user"));
     }
 
     /**
@@ -99,16 +100,18 @@ class UsersController extends AppController
     public function edit($id = null)
     {
         $user = $this->Users->get($id, contain: []);
-        if ($this->request->is(['patch', 'post', 'put'])) {
+        if ($this->request->is(["patch", "post", "put"])) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
-                $this->Flash->success(__('The user has been saved.'));
+                $this->Flash->success(__("The user has been saved."));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(["action" => "index"]);
             }
-            $this->Flash->error(__('The user could not be saved. Please, try again.'));
+            $this->Flash->error(
+                __("The user could not be saved. Please, try again.")
+            );
         }
-        $this->set(compact('user'));
+        $this->set(compact("user"));
     }
 
     /**
@@ -120,14 +123,16 @@ class UsersController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
+        $this->request->allowMethod(["post", "delete"]);
         $user = $this->Users->get($id);
-        if ($this->Users->delete($user)) {
-            $this->Flash->success(__('The user has been deleted.'));
+        if ($this->Users->trash($user)) {
+            $this->Flash->success(__("The user has been deleted."));
         } else {
-            $this->Flash->error(__('The user could not be deleted. Please, try again.'));
+            $this->Flash->error(
+                __("The user could not be deleted. Please, try again.")
+            );
         }
 
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect(["action" => "index"]);
     }
 }

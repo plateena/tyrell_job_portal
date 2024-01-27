@@ -32,38 +32,46 @@ class UsersTable extends Table
     /**
      * Initialize method
      *
-     * @param array<string, mixed> $config The configuration for the Table.
+     * @param  array<string, mixed> $config The configuration for the Table.
      * @return void
      */
     public function initialize(array $config): void
     {
         parent::initialize($config);
 
-        $this->setTable('users');
-        $this->setDisplayField('email');
-        $this->setPrimaryKey('id');
+        $this->setTable("users");
+        $this->setDisplayField("email");
+        $this->setPrimaryKey("id");
 
-        $this->addBehavior('Timestamp');
+        $this->addBehavior("Timestamp");
+
+        // Add the Trash behavior
+        $this->addBehavior(
+            "Muffin/Trash.Trash", [
+            "field" => "deleted_at",
+            "events" => ["Model.beforeFind"], // enables the beforeFind event only, false to disable both
+            ]
+        );
     }
 
     /**
      * Default validation rules.
      *
-     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @param  \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
     public function validationDefault(Validator $validator): Validator
     {
         $validator
-            ->email('email')
-            ->requirePresence('email', 'create')
-            ->notEmptyString('email');
+            ->email("email")
+            ->requirePresence("email", "create")
+            ->notEmptyString("email");
 
         $validator
-            ->scalar('password')
-            ->maxLength('password', 255)
-            ->requirePresence('password', 'create')
-            ->notEmptyString('password');
+            ->scalar("password")
+            ->maxLength("password", 255)
+            ->requirePresence("password", "create")
+            ->notEmptyString("password");
 
         return $validator;
     }
@@ -72,12 +80,12 @@ class UsersTable extends Table
      * Returns a rules checker object that will be used for validating
      * application integrity.
      *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @param  \Cake\ORM\RulesChecker $rules The rules object to be modified.
      * @return \Cake\ORM\RulesChecker
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->isUnique(['email']), ['errorField' => 'email']);
+        $rules->add($rules->isUnique(["email"]), ["errorField" => "email"]);
 
         return $rules;
     }
