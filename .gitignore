@@ -2,8 +2,7 @@ mysql
 .git
 
 # CakePHP 5
-
-portal/tmp/debug_kit.sqlite
+portal/tmp/debug*
 
 portal/vendor/*
 portal/tmp/cache/models/*
