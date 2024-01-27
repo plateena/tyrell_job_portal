@@ -10,3 +10,7 @@
         <?php echo $this->Auth->getLoginLink() ?>
     <?php endif; ?>
 </nav>
+
+<div>
+    <?= $this->Flash->render() ?> <!-- Renders flash messages -->
+</div>

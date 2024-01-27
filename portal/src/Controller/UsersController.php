@@ -100,6 +100,14 @@ class UsersController extends AppController
     public function edit($id = null)
     {
         $user = $this->Users->get($id, contain: []);
+
+        if ($id == 1) {
+            $this->Flash->error(
+                __("The default user could not be edited. Please, try again.")
+            );
+            return $this->redirect(["action" => "index"]);
+        }
+
         if ($this->request->is(["patch", "post", "put"])) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
@@ -124,6 +132,14 @@ class UsersController extends AppController
     public function delete($id = null)
     {
         $this->request->allowMethod(["post", "delete"]);
+
+        if ($id == 1) {
+            $this->Flash->error(
+                __("The default user could not be deleted. Please, try again.")
+            );
+            return $this->redirect(["action" => "index"]);
+        }
+
         $user = $this->Users->get($id);
         if ($this->Users->trash($user)) {
             $this->Flash->success(__("The user has been deleted."));
