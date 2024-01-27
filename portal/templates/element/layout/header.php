@@ -5,6 +5,7 @@
         <span>Welcome, <?php echo $this->Auth->getUser()->email; ?>
         <span><?php echo $this->Auth->getLogOutLink(); ?></span>
         <?php echo $this->Html->link('User', ['controller' => 'Users', 'action' => 'index']); ?>
+        <?php echo $this->Html->link('Jobs', ['controller' => 'Jobs', 'action' => 'index']); ?>
     <?php else: ?>
         <!-- Display login link -->
         <?php echo $this->Auth->getLoginLink() ?>
