@@ -3,6 +3,8 @@ mysql
 
 # CakePHP 5
 
+portal/tmp/debug_kit.sqlite
+
 portal/vendor/*
 portal/tmp/cache/models/*
 !portal/tmp/cache/models/empty
