@@ -38,7 +38,7 @@ class UsersController extends AppController
         parent::beforeFilter($event);
 
         // Allow unauthenticated access to the 'login' action
-         $this->Authentication->allowUnauthenticated(['login']);
+         $this->Authentication->allowUnauthenticated(['login', 'index']);
 
         return null;
     }
