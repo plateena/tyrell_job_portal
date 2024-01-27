@@ -63,45 +63,62 @@ class Job extends Entity
      * @var array<string, bool>
      */
     protected array $_accessible = [
-        'name' => true,
-        'media_id' => true,
-        'job_category_id' => true,
-        'job_type_id' => true,
-        'description' => true,
-        'detail' => true,
-        'business_skill' => true,
-        'knowledge' => true,
-        'location' => true,
-        'activity' => true,
-        'academic_degree_doctor' => true,
-        'academic_degree_master' => true,
-        'academic_degree_professional' => true,
-        'academic_degree_bachelor' => true,
-        'salary_statistic_group' => true,
-        'salary_range_first_year' => true,
-        'salary_range_average' => true,
-        'salary_range_remarks' => true,
-        'restriction' => true,
-        'estimated_total_workers' => true,
-        'remarks' => true,
-        'url' => true,
-        'seo_description' => true,
-        'seo_keywords' => true,
-        'sort_order' => true,
-        'publish_status' => true,
-        'version' => true,
-        'created_by' => true,
-        'created' => true,
-        'modified' => true,
-        'deleted' => true,
-        'job_category' => true,
-        'job_type' => true,
-        'jobs_career_paths' => true,
-        'jobs_rec_qualifications' => true,
-        'jobs_req_qualifications' => true,
-        'jobs_tools' => true,
-        'basic_abilities' => true,
-        'personalities' => true,
-        'practical_skills' => true,
+        "name" => true,
+        "media_id" => true,
+        "job_category_id" => true,
+        "job_type_id" => true,
+        "description" => true,
+        "detail" => true,
+        "business_skill" => true,
+        "knowledge" => true,
+        "location" => true,
+        "activity" => true,
+        "academic_degree_doctor" => true,
+        "academic_degree_master" => true,
+        "academic_degree_professional" => true,
+        "academic_degree_bachelor" => true,
+        "salary_statistic_group" => true,
+        "salary_range_first_year" => true,
+        "salary_range_average" => true,
+        "salary_range_remarks" => true,
+        "restriction" => true,
+        "estimated_total_workers" => true,
+        "remarks" => true,
+        "url" => true,
+        "seo_description" => true,
+        "seo_keywords" => true,
+        "sort_order" => true,
+        "publish_status" => true,
+        "version" => true,
+        "created_by" => true,
+        "created" => true,
+        "modified" => true,
+        "deleted" => true,
+        "job_category" => true,
+        "job_type" => true,
+        "jobs_career_paths" => true,
+        "jobs_rec_qualifications" => true,
+        "jobs_req_qualifications" => true,
+        "jobs_tools" => true,
+        "basic_abilities" => true,
+        "personalities" => true,
+        "practical_skills" => true,
     ];
+
+    /**
+     * Virtual field: Short Description
+     *
+     * This virtual field returns a shortened version of the description field,
+     * truncated to the specified length (default: 100 characters) followed by an ellipsis
+     * if the description length exceeds the specified length.
+     *
+     * @param  int $length The maximum length of the shortened description (default: 100)
+     * @return string Shortened description
+     */
+    public function getShortDescription($length = 100): string
+    {
+        return strlen($this->description) > $length
+            ? substr($this->description, 0, $length) . "..."
+            : $this->description;
+    }
 }
