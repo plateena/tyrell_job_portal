@@ -48,12 +48,12 @@ $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
         <?php endif; ?>
     </div>
 
-    <?php if ($this->Paginator->hasNext()): ?>
+    <?php if ($this->Paginator->hasNext() || $this->Paginator->hasPrev()): ?>
         <div class="pagination mt-4 d-flex justify-content-center">
             <ul class="pagination">
-                <?php echo $this->Paginator->prev(__("<<"), ['class' => 'btn btn-secondary']); ?>
-                <?php echo $this->Paginator->numbers(['class' => 'btn btn-secondary', 'template' => 'paginator']); ?>
-                <?php echo $this->Paginator->next(__(">>"), ['class' => 'btn btn-secondary']); ?>
+                <?php echo $this->Paginator->prev(__("<")); ?>
+                <?php echo $this->Paginator->numbers(['modulus' => 1, 'first' => 1, 'last' => 1]); ?>
+                <?php echo $this->Paginator->next(__(">")); ?>
             </ul>
         </div>
     <?php endif; ?>

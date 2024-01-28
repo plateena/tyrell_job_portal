@@ -3,33 +3,10 @@
 
 /* Pagination Styles */
 ul.pagination {
-    display: flex;
-    list-style: none;
-    padding: 0 20;
-    justify-content: center;
-
-    li {
-        border: 1px solid black;
-        border-color: #007bff;
-        border-radius: 3px;
-        margin-left: 3px;
+    li.ellipsis {
         padding: 0px 12px;
-
-        &.disabled {
-            display: none;
-        }
-
-        a {
-            text-decoration: none;
-            color: blue;
-        }
-
-        &.active {
-            a {
-                cursor: normal;
-                color: gray;
-            }
-        }
+        margin-top: 10px;
+        font-weight: bolder;
     }
 }
 
@@ -41,7 +18,8 @@ nav.navbar {
 }
 
 table.table {
-    thead { a {
+    thead {
+        a {
 
         text-decoration: none;
     }
