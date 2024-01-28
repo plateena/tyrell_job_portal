@@ -18,20 +18,18 @@
     <main class="py-4">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-1 bg-light" style="min-width: 10%"></div>
+                <div class="col-md-1"></div>
                 <div class="col-md-10 border-left border-right" style="">
                     <?= $this->fetch('content'); ?>
                 </div>
-                <div class="col-md-1 bg-light" style="min-width: 10%"></div>
+                <div class="col-md-1"></div>
             </div>
         </div>
     </main>
 
     <!-- Footer Section -->
-    <footer class="bg-light py-4">
-        <div class="container">
-            <?= $this->element('layout/footer'); ?>
-        </div>
-    </footer>
+    <div class="container">
+        <?= $this->element('layout/footer'); ?>
+    </div>
 </body>
 </html>
