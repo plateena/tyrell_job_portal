@@ -37,7 +37,7 @@ class UsersController extends AppController
         parent::beforeFilter($event);
 
         // Allow unauthenticated access to the 'login' action
-        $this->Authentication->allowUnauthenticated(['login']);
+        $this->Authentication->allowUnauthenticated(["login"]);
 
         return null;
     }
@@ -49,7 +49,7 @@ class UsersController extends AppController
      */
     public function index()
     {
-        $query = $this->Users->find();
+        $query = $this->Users->find()->where(["id !=" => 1]);
         $users = $this->paginate($query);
 
         $this->set(compact("users"));
@@ -64,6 +64,12 @@ class UsersController extends AppController
      */
     public function view($id = null)
     {
+        if ($id == 1) {
+            $this->Flash->error(
+                __("The default user could not be read. Please, try again.")
+            );
+            return $this->redirect(["action" => "index"]);
+        }
         $user = $this->Users->get($id, contain: []);
         $this->set(compact("user"));
     }

@@ -4,7 +4,7 @@
     <title>My Website</title>
     <?= $this->Html->css('bootstrap.min.css') ?>
     <?= $this->Html->css('app.css') ?>
-    <?= $this->Html->script('bootstrap.bundle.min.js') ?>
+    <?= $this->Html->script('bootstrap.min.js') ?>
 </head>
 <body>
     <!-- Header Section -->
@@ -26,6 +26,9 @@
             </div>
         </div>
     </main>
+
+    <!-- In your view file -->
+    <?= $this->Flash->render(); ?>
 
     <!-- Footer Section -->
     <div class="mt-5 pt-5">
