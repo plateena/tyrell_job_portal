@@ -5,24 +5,34 @@
  */
 ?>
 <div class="row">
-    <aside class="column">
-        <div class="side-nav">
-            <h4 class="heading"><?= __('Actions') ?></h4>
-            <?= $this->Html->link(__('List Users'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
+    <aside class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title"><?= __('Actions') ?></h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <?= $this->Html->link(__('List Users'), ['action' => 'index'], ['class' => 'btn btn-secondary btn-sm']) ?>
+                    </li>
+                </ul>
+            </div>
         </div>
     </aside>
-    <div class="column column-80">
-        <div class="users form content">
-            <?= $this->Form->create($user) ?>
-            <fieldset>
-                <legend><?= __('Add User') ?></legend>
-                <?php
-                    echo $this->Form->control('email');
-                    echo $this->Form->control('password');
-                ?>
-            </fieldset>
-            <?= $this->Form->button(__('Submit')) ?>
-            <?= $this->Form->end() ?>
+    <div class="col-md-9">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title"><?= __('Add User') ?></h5>
+                <?= $this->Form->create($user) ?>
+                <fieldset>
+                    <div class="mb-3">
+                        <?= $this->Form->control('email', ['class' => 'form-control', 'label' => ['text' => 'Email']]) ?>
+                    </div>
+                    <div class="mb-3">
+                        <?= $this->Form->control('password', ['class' => 'form-control', 'label' => ['text' => 'Password']]) ?>
+                    </div>
+                </fieldset>
+                <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-primary']) ?>
+                <?= $this->Form->end() ?>
+            </div>
         </div>
     </div>
 </div>
