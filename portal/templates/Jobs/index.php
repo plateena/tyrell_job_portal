@@ -12,11 +12,13 @@ $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
 <div class="container mt-4">
     <div class="row">
         <div class="col-md-12">
-            <?php echo $this->Form->create(null, [
+            <?php echo $this->Form->create(
+                null, [
                 "url" => ["controller" => "Jobs", "action" => "index"],
                 "type" => "get",
                 "id" => "search-form"
-            ]); ?>
+                ]
+            ); ?>
             <div class="input-group">
                 <input id="search-input" class="form-control" name="search" type="text" placeholder="Search the jobs" value="<?php echo h($searchTerm); ?>">
                 <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i> Search</button>
@@ -26,14 +28,14 @@ $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
         </div>
     </div>
 
-    <?php if (!empty($searchTerm)): ?>
+    <?php if (!empty($searchTerm)) : ?>
         <div class="mt-3">
             <p>Showing results for: <span class="fw-bolder"><?php echo h($searchTerm); ?></p></span>
         </div>
     <?php endif; ?>
 
     <div class="result mt-4">
-        <?php if (!empty($jobs)): ?>
+        <?php if (!empty($jobs)) : ?>
             <?php foreach ($jobs as $job): ?>
                 <div class="card mb-3">
                     <div class="card-body">
@@ -48,7 +50,7 @@ $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
         <?php endif; ?>
     </div>
 
-    <?php if ($this->Paginator->hasNext() || $this->Paginator->hasPrev()): ?>
+    <?php if ($this->Paginator->hasNext() || $this->Paginator->hasPrev()) : ?>
         <div class="pagination mt-4 d-flex justify-content-center">
             <ul class="pagination">
                 <?php echo $this->Paginator->prev(__("<")); ?>
@@ -60,15 +62,15 @@ $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
 
     <div class="mt-4">
         <div class="d-flex text-secondary justify-content-between align-items-center mt-4">
-            <?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?>
+            <?php echo $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?>
         </div>
         <div class="float-end">
             <label class="me-2">Set Per page:</label>
             <div class="per-page-group btn-group fl">
                 <?php foreach ($perPageOptions as $perPageOption): ?>
                     <label class="btn per-page <?php echo ($perPage == $perPageOption) ? ' active' : ''; ?>">
-                        <?php  if($perPage == $perPageOption): ?>
-                            <?php echo $this->Html->link($perPageOption, array('?' => ['per_page'=> $perPageOption]),array('onclick'=>'return false;', 'disabled' => 'disabled')); ?>
+                        <?php  if($perPage == $perPageOption) : ?>
+                            <?php echo $this->Html->link($perPageOption, array('?' => ['per_page'=> $perPageOption]), array('onclick'=>'return false;', 'disabled' => 'disabled')); ?>
                         <?php  else: ?>
                             <?php echo $this->Html->link($perPageOption, ['?' => ['per_page' => $perPageOption]]); ?>
                         <?php  endif; ?>

@@ -33,7 +33,7 @@ class JobsPersonalitiesTable extends Table
     /**
      * Initialize method
      *
-     * @param array<string, mixed> $config The configuration for the Table.
+     * @param  array<string, mixed> $config The configuration for the Table.
      * @return void
      */
     public function initialize(array $config): void
@@ -44,21 +44,25 @@ class JobsPersonalitiesTable extends Table
         $this->setDisplayField(["job_id", "personality_id"]);
         $this->setPrimaryKey(["job_id", "personality_id"]);
 
-        $this->belongsTo("Jobs", [
+        $this->belongsTo(
+            "Jobs", [
             "className" => "Jobs",
             "foreignKey" => "job_id",
-        ]);
+            ]
+        );
 
-        $this->belongsTo("Personalities", [
+        $this->belongsTo(
+            "Personalities", [
             "className" => "Personalities",
             "foreignKey" => "personality_id",
-        ]);
+            ]
+        );
     }
 
     /**
      * Default validation rules.
      *
-     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @param  \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
     public function validationDefault(Validator $validator): Validator
@@ -72,17 +76,21 @@ class JobsPersonalitiesTable extends Table
      * Returns a rules checker object that will be used for validating
      * application integrity.
      *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @param  \Cake\ORM\RulesChecker $rules The rules object to be modified.
      * @return \Cake\ORM\RulesChecker
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn("job_id", "Jobs"), [
+        $rules->add(
+            $rules->existsIn("job_id", "Jobs"), [
             "errorField" => "job_id",
-        ]);
-        $rules->add($rules->existsIn("personality_id", "Personalities"), [
+            ]
+        );
+        $rules->add(
+            $rules->existsIn("personality_id", "Personalities"), [
             "errorField" => "personality_id",
-        ]);
+            ]
+        );
 
         return $rules;
     }

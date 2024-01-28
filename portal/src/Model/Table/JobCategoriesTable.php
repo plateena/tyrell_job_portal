@@ -35,7 +35,7 @@ class JobCategoriesTable extends Table
     /**
      * Initialize method
      *
-     * @param array<string, mixed> $config The configuration for the Table.
+     * @param  array<string, mixed> $config The configuration for the Table.
      * @return void
      */
     public function initialize(array $config): void
@@ -48,18 +48,22 @@ class JobCategoriesTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        $this->hasMany('JobTypes', [
+        $this->hasMany(
+            'JobTypes', [
             'foreignKey' => 'job_category_id',
-        ]);
-        $this->hasMany('Jobs', [
+            ]
+        );
+        $this->hasMany(
+            'Jobs', [
             'foreignKey' => 'job_category_id',
-        ]);
+            ]
+        );
     }
 
     /**
      * Default validation rules.
      *
-     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @param  \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
     public function validationDefault(Validator $validator): Validator

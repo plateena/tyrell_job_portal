@@ -7,33 +7,33 @@
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
- * @link          https://cakephp.org CakePHP(tm) Project
- * @since         0.10.0
- * @license       https://opensource.org/licenses/mit-license.php MIT License
- * @var \App\View\AppView $this
+ * @copyright Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
+ * @link      https://cakephp.org CakePHP(tm) Project
+ * @since     0.10.0
+ * @license   https://opensource.org/licenses/mit-license.php MIT License
+ * @var       \App\View\AppView $this
  */
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-    <?= $this->Html->charset() ?>
+    <?php echo $this->Html->charset() ?>
     <title>
-        <?= $this->fetch('title') ?>
+        <?php echo $this->fetch('title') ?>
     </title>
-    <?= $this->Html->meta('icon') ?>
+    <?php echo $this->Html->meta('icon') ?>
 
-    <?= $this->Html->css(['normalize.min', 'milligram.min', 'fonts', 'cake']) ?>
+    <?php echo $this->Html->css(['normalize.min', 'milligram.min', 'fonts', 'cake']) ?>
 
-    <?= $this->fetch('meta') ?>
-    <?= $this->fetch('css') ?>
-    <?= $this->fetch('script') ?>
+    <?php echo $this->fetch('meta') ?>
+    <?php echo $this->fetch('css') ?>
+    <?php echo $this->fetch('script') ?>
 </head>
 <body>
     <div class="error-container">
-        <?= $this->Flash->render() ?>
-        <?= $this->fetch('content') ?>
-        <?= $this->Html->link(__('Back'), 'javascript:history.back()') ?>
+        <?php echo $this->Flash->render() ?>
+        <?php echo $this->fetch('content') ?>
+        <?php echo $this->Html->link(__('Back'), 'javascript:history.back()') ?>
     </div>
 </body>
 </html>

@@ -11,9 +11,11 @@ class DebugController extends AppController
     {
         $this->Jobs = $this->fetchTable('Jobs');
         $query = $this->Jobs->find();
-        $query->contain([
+        $query->contain(
+            [
                 'JobsPersonalities',
-            'JobsPersonalities.Personalities']);
+            'JobsPersonalities.Personalities']
+        );
         $query->select(
             [
                 // 'JobsPersonalities.Personalities.name',

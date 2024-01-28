@@ -8,10 +8,10 @@
     <aside class="col-md-3">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title"><?= __('Actions') ?></h5>
+                <h5 class="card-title"><?php echo __('Actions') ?></h5>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
-                        <?= $this->Html->link(__('List Users'), ['action' => 'index'], ['class' => 'btn btn-secondary btn-sm']) ?>
+                        <?php echo $this->Html->link(__('List Users'), ['action' => 'index'], ['class' => 'btn btn-secondary btn-sm']) ?>
                     </li>
                 </ul>
             </div>
@@ -20,18 +20,18 @@
     <div class="col-md-9">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title"><?= __('Add User') ?></h5>
-                <?= $this->Form->create($user) ?>
+                <h5 class="card-title"><?php echo __('Add User') ?></h5>
+                <?php echo $this->Form->create($user) ?>
                 <fieldset>
                     <div class="mb-3">
-                        <?= $this->Form->control('email', ['class' => 'form-control', 'label' => ['text' => 'Email']]) ?>
+                        <?php echo $this->Form->control('email', ['class' => 'form-control', 'label' => ['text' => 'Email']]) ?>
                     </div>
                     <div class="mb-3">
-                        <?= $this->Form->control('password', ['class' => 'form-control', 'label' => ['text' => 'Password']]) ?>
+                        <?php echo $this->Form->control('password', ['class' => 'form-control', 'label' => ['text' => 'Password']]) ?>
                     </div>
                 </fieldset>
-                <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-primary']) ?>
-                <?= $this->Form->end() ?>
+                <?php echo $this->Form->button(__('Submit'), ['class' => 'btn btn-primary']) ?>
+                <?php echo $this->Form->end() ?>
             </div>
         </div>
     </div>

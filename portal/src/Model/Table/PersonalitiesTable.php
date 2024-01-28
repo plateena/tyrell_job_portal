@@ -34,7 +34,7 @@ class PersonalitiesTable extends Table
     /**
      * Initialize method
      *
-     * @param array<string, mixed> $config The configuration for the Table.
+     * @param  array<string, mixed> $config The configuration for the Table.
      * @return void
      */
     public function initialize(array $config): void
@@ -47,18 +47,20 @@ class PersonalitiesTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        $this->belongsToMany('Jobs', [
+        $this->belongsToMany(
+            'Jobs', [
             'className' => 'Jobs',
             'joinTable' => 'jobs_personalities',
             'foreignKey' => 'personality_id',
             'targetForeignKey' => 'job_id'
-        ]);
+            ]
+        );
     }
 
     /**
      * Default validation rules.
      *
-     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @param  \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
     public function validationDefault(Validator $validator): Validator

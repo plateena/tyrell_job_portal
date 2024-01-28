@@ -11,7 +11,7 @@
  * @link      https://cakephp.org CakePHP(tm) Project
  * @since     0.10.0
  * @license   https://opensource.org/licenses/mit-license.php MIT License
- * @var \App\View\AppView $this
+ * @var       \App\View\AppView $this
  */
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
@@ -60,19 +60,19 @@ endif;
 <!DOCTYPE html>
 <html>
 <head>
-    <?= $this->Html->charset() ?>
+    <?php echo $this->Html->charset() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>
         CakePHP: the rapid development PHP framework:
-        <?= $this->fetch('title') ?>
+        <?php echo $this->fetch('title') ?>
     </title>
-    <?= $this->Html->meta('icon') ?>
+    <?php echo $this->Html->meta('icon') ?>
 
-    <?= $this->Html->css(['normalize.min', 'milligram.min', 'fonts', 'cake', 'home']) ?>
+    <?php echo $this->Html->css(['normalize.min', 'milligram.min', 'fonts', 'cake', 'home']) ?>
 
-    <?= $this->fetch('meta') ?>
-    <?= $this->fetch('css') ?>
-    <?= $this->fetch('script') ?>
+    <?php echo $this->fetch('meta') ?>
+    <?php echo $this->fetch('css') ?>
+    <?php echo $this->fetch('script') ?>
 </head>
 <body>
     <header>
@@ -81,7 +81,7 @@ endif;
                 <img alt="CakePHP" src="https://cakephp.org/v2/img/logos/CakePHP_Logo.svg" width="350" />
             </a>
             <h1>
-                Welcome to CakePHP <?= h(Configure::version()) ?> Chiffon (🍰)
+                Welcome to CakePHP <?php echo h(Configure::version()) ?> Chiffon (🍰)
             </h1>
         </div>
     </header>
@@ -110,9 +110,9 @@ endif;
                         <h4>Environment</h4>
                         <ul>
                         <?php if (version_compare(PHP_VERSION, '8.1.0', '>=')) : ?>
-                            <li class="bullet success">Your version of PHP is 8.1.0 or higher (detected <?= PHP_VERSION ?>).</li>
+                            <li class="bullet success">Your version of PHP is 8.1.0 or higher (detected <?php echo PHP_VERSION ?>).</li>
                         <?php else : ?>
-                            <li class="bullet problem">Your version of PHP is too low. You need PHP 8.1.0 or higher to use CakePHP (detected <?= PHP_VERSION ?>).</li>
+                            <li class="bullet problem">Your version of PHP is too low. You need PHP 8.1.0 or higher to use CakePHP (detected <?php echo PHP_VERSION ?>).</li>
                         <?php endif; ?>
 
                         <?php if (extension_loaded('mbstring')) : ?>
@@ -153,7 +153,7 @@ endif;
 
                         <?php $settings = Cache::getConfig('_cake_core_'); ?>
                         <?php if (!empty($settings)) : ?>
-                            <li class="bullet success">The <em><?= h($settings['className']) ?></em> is being used for core caching. To change the config edit config/app.php</li>
+                            <li class="bullet success">The <em><?php echo h($settings['className']) ?></em> is being used for core caching. To change the config edit config/app.php</li>
                         <?php else : ?>
                             <li class="bullet problem">Your cache is NOT working. Please check the settings in config/app.php</li>
                         <?php endif; ?>
@@ -171,7 +171,7 @@ endif;
                         <?php if ($result['connected']) : ?>
                             <li class="bullet success">CakePHP is able to connect to the database.</li>
                         <?php else : ?>
-                            <li class="bullet problem">CakePHP is NOT able to connect to the database.<br /><?= h($result['error']) ?></li>
+                            <li class="bullet problem">CakePHP is NOT able to connect to the database.<br /><?php echo h($result['error']) ?></li>
                         <?php endif; ?>
                         </ul>
                     </div>
@@ -186,7 +186,7 @@ endif;
                             <?php if ($result['connected']) : ?>
                                 <li class="bullet success">DebugKit can connect to the database.</li>
                             <?php else : ?>
-                                <li class="bullet problem">There are configuration problems present which need to be fixed:<br /><?= $result['error'] ?></li>
+                                <li class="bullet problem">There are configuration problems present which need to be fixed:<br /><?php echo $result['error'] ?></li>
                             <?php endif; ?>
                         <?php else : ?>
                             <li class="bullet problem">DebugKit is <strong>not</strong> loaded.</li>

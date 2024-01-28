@@ -34,7 +34,7 @@ class BasicAbilitiesTable extends Table
     /**
      * Initialize method
      *
-     * @param array<string, mixed> $config The configuration for the Table.
+     * @param  array<string, mixed> $config The configuration for the Table.
      * @return void
      */
     public function initialize(array $config): void
@@ -47,17 +47,19 @@ class BasicAbilitiesTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        $this->belongsToMany('Jobs', [
+        $this->belongsToMany(
+            'Jobs', [
             'foreignKey' => 'basic_ability_id',
             'targetForeignKey' => 'job_id',
             'joinTable' => 'jobs_basic_abilities',
-        ]);
+            ]
+        );
     }
 
     /**
      * Default validation rules.
      *
-     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @param  \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
     public function validationDefault(Validator $validator): Validator

@@ -33,7 +33,7 @@ class JobsBasicAbilitiesTable extends Table
     /**
      * Initialize method
      *
-     * @param array<string, mixed> $config The configuration for the Table.
+     * @param  array<string, mixed> $config The configuration for the Table.
      * @return void
      */
     public function initialize(array $config): void
@@ -44,20 +44,24 @@ class JobsBasicAbilitiesTable extends Table
         $this->setDisplayField(['job_id', 'basic_ability_id']);
         $this->setPrimaryKey(['job_id', 'basic_ability_id']);
 
-        $this->belongsTo('Jobs', [
+        $this->belongsTo(
+            'Jobs', [
             'foreignKey' => 'job_id',
             'joinType' => 'INNER',
-        ]);
-        $this->belongsTo('BasicAbilities', [
+            ]
+        );
+        $this->belongsTo(
+            'BasicAbilities', [
             'foreignKey' => 'basic_ability_id',
             'joinType' => 'INNER',
-        ]);
+            ]
+        );
     }
 
     /**
      * Default validation rules.
      *
-     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @param  \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
     public function validationDefault(Validator $validator): Validator
@@ -73,7 +77,7 @@ class JobsBasicAbilitiesTable extends Table
      * Returns a rules checker object that will be used for validating
      * application integrity.
      *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @param  \Cake\ORM\RulesChecker $rules The rules object to be modified.
      * @return \Cake\ORM\RulesChecker
      */
     public function buildRules(RulesChecker $rules): RulesChecker
