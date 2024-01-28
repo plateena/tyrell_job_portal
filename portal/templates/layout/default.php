@@ -4,6 +4,7 @@
 <head>
     <title>My Website</title>
     <?= $this->Html->css('bootstrap.min.css') ?>
+    <?= $this->Html->css('app.css') ?>
     <?= $this->Html->script('bootstrap.min.js') ?>
 </head>
 <body>

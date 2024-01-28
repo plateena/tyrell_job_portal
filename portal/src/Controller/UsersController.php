@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Controller\Traits\AuthTrait;
+use App\Controller\Traits\MyAuthTrait;
 use Cake\Event\EventInterface;
 use Cake\Http\Response;
 
@@ -23,7 +23,7 @@ class UsersController extends AppController
      * @method login() Handles user login.
      * @method logout() Logs the user out and redirects to the login page.
      */
-    use AuthTrait;
+    use MyAuthTrait;
 
     /**
      * Before filter method.
@@ -37,7 +37,7 @@ class UsersController extends AppController
         parent::beforeFilter($event);
 
         // Allow unauthenticated access to the 'login' action
-        $this->Authentication->allowUnauthenticated(["login", "index"]);
+        $this->Authentication->allowUnauthenticated(['login']);
 
         return null;
     }

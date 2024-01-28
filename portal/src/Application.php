@@ -16,13 +16,10 @@ declare(strict_types=1);
  */
 namespace App;
 
-use App\Controller\Trait\AuthTrait as AppAuthTrait;
-use App\Controller\Traits\AuthTrait;
 use Authentication\AuthenticationService;
 use Authentication\AuthenticationServiceInterface;
 use Authentication\AuthenticationServiceProviderInterface;
 use Authentication\Identifier\AbstractIdentifier;
-use Authentication\Identifier\IdentifierInterface;
 use Authentication\Middleware\AuthenticationMiddleware;
 use Cake\Core\Configure;
 use Cake\Core\ContainerInterface;
@@ -32,6 +29,7 @@ use Cake\Http\BaseApplication;
 use Cake\Http\MiddlewareQueue;
 use Cake\Http\Middleware\BodyParserMiddleware;
 use Cake\Http\Middleware\CsrfProtectionMiddleware;
+use Cake\Http\Session;
 use Cake\ORM\Locator\TableLocator;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
@@ -46,19 +44,9 @@ use Psr\Http\Message\ServerRequestInterface;
  *
  * @extends \Cake\Http\BaseApplication<\App\Application>
  */
-class Application extends BaseApplication implements AuthenticationServiceProviderInterface
+class Application extends BaseApplication implements
+    AuthenticationServiceProviderInterface
 {
-    /**
-     * Include methods for user authentication.
-     *
-     * This trait provides reusable methods for handling user authentication in CakePHP controllers.
-     * It includes methods for handling user login and logout.
-     *
-     * @method login() Handles user login.
-     * @method logout() Logs the user out and redirects to the login page.
-     */
-    use AuthTrait;
-
     /**
      * Load all the application configuration and bootstrap logic.
      *
@@ -69,14 +57,14 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         // Call parent to load bootstrap from files.
         parent::bootstrap();
 
-        if (PHP_SAPI !== 'cli') {
+        if (PHP_SAPI !== "cli") {
             FactoryLocator::add(
-                'Table',
+                "Table",
                 (new TableLocator())->allowFallbackClass(false)
             );
         }
 
-        $this->addPlugin('Authentication');
+        $this->addPlugin("Authentication");
     }
 
     /**
@@ -85,18 +73,19 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
      * @param  \Cake\Http\MiddlewareQueue $middlewareQueue The middleware queue to setup.
      * @return \Cake\Http\MiddlewareQueue The updated middleware queue.
      */
-    public function middleware(MiddlewareQueue $middlewareQueue): MiddlewareQueue
-    {
+    public function middleware(
+        MiddlewareQueue $middlewareQueue
+    ): MiddlewareQueue {
         $middlewareQueue
             // Catch any exceptions in the lower layers,
             // and make an error page/response
-            ->add(new ErrorHandlerMiddleware(Configure::read('Error'), $this))
+            ->add(new ErrorHandlerMiddleware(Configure::read("Error"), $this))
 
             // Handle plugin/theme assets like CakePHP normally does.
             ->add(
                 new AssetMiddleware(
                     [
-                    'cacheTime' => Configure::read('Asset.cacheTime'),
+                    "cacheTime" => Configure::read("Asset.cacheTime"),
                     ]
                 )
             )
@@ -112,7 +101,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             // https://book.cakephp.org/4/en/controllers/middleware.html#body-parser-middleware
             ->add(new BodyParserMiddleware())
 
-        // Add the AuthenticationMiddleware
+            // Add the AuthenticationMiddleware
             ->add(new AuthenticationMiddleware($this))
 
             // Cross Site Request Forgery (CSRF) Protection Middleware
@@ -120,7 +109,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             ->add(
                 new CsrfProtectionMiddleware(
                     [
-                    'httponly' => true,
+                    "httponly" => true,
                     ]
                 )
             );
@@ -140,54 +129,66 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
     }
 
     /**
-     * Returns a service provider instance.
+     * Returns a service provider instance for authentication.
      *
      * @param  \Psr\Http\Message\ServerRequestInterface $request Request
      * @return \Authentication\AuthenticationServiceInterface
      */
-    public function getAuthenticationService(ServerRequestInterface $request): AuthenticationServiceInterface
-    {
+    public function getAuthenticationService(
+        ServerRequestInterface $request
+    ): AuthenticationServiceInterface {
         $service = new AuthenticationService();
 
         // Define where users should be redirected to when they are not authenticated
+        $redirectUrl = Router::url(
+            [
+            "prefix" => false,
+            "plugin" => null,
+            "controller" => "Users",
+            "action" => "login",
+            ]
+        );
+
         $service->setConfig(
             [
-            'unauthenticatedRedirect' => Router::url(
-                [
-                'prefix' => false,
-                'plugin' => null,
-                'controller' => 'Users',
-                'action' => 'login',
-                ]
-            ),
-            'queryParam' => 'redirect',
+            "unauthenticatedRedirect" => $redirectUrl,
+            "queryParam" => "redirect",
             ]
         );
 
         $fields = [
-            AbstractIdentifier::CREDENTIAL_USERNAME => 'email',
-            AbstractIdentifier::CREDENTIAL_PASSWORD => 'password'
+            AbstractIdentifier::CREDENTIAL_USERNAME => "email",
+            AbstractIdentifier::CREDENTIAL_PASSWORD => "password",
         ];
+
         // Load the authenticators. Session should be first.
-        $service->loadAuthenticator('Authentication.Session');
+        $service->loadAuthenticator("Authentication.Session");
         $service->loadAuthenticator(
-            'Authentication.Form', [
-            'fields' => $fields,
-            'loginUrl' => Router::url(
-                [
-                'prefix' => false,
-                'plugin' => null,
-                'controller' => 'Users',
-                'action' => 'login',
-                ]
-            ),
+            "Authentication.Form", [
+            "fields" => $fields,
+            "loginUrl" => $redirectUrl,
             ]
         );
 
         // Load identifiers
-        $service->loadIdentifier('Authentication.Password', compact('fields'));
+        $service->loadIdentifier("Authentication.Password", compact("fields"));
+
+        // Get the session object
+        $session = new Session();
+
+        // Check if the user is authenticated and not on the login page
+        $result = $service->getResult();
+        if ($result !== null 
+            && !$result->isValid() 
+            && $request->getRequestTarget() !== $redirectUrl
+        ) {
+            // Set a flash message
+            $session->setFlash(
+                "error",
+                "You must be logged in to access this page."
+            );
+        }
 
         return $service;
     }
-
 }

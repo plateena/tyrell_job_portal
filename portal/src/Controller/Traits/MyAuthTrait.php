@@ -10,7 +10,7 @@ use Cake\Http\Response;
  * This trait provides reusable methods for handling user authentication in CakePHP controllers.
  * It includes methods for handling user login and logout.
  */
-trait AuthTrait
+trait MyAuthTrait
 {
     /**
      * Handles user login.
