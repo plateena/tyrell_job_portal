@@ -31,7 +31,7 @@ class JobsController extends AppController
      */
     public function index(): void
     {
-        $searchTerm = $this->request->getQuery("search");
+        $searchTerm = $this->request->getQuery("search") ?: '';
         $query = $this->Jobs->searchJobs($searchTerm);
 
         // Paginate the results using the PaginationTrait
