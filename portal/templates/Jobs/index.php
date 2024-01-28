@@ -9,10 +9,12 @@
     <div>
         Result:
         <div>
-            <?php foreach ($jobs as $job): ?>
-            <div><?php echo $job->name ?></div>
-            <div><?php echo $job->getShortDescription() ?></div>
-            <?php endforeach; ?>
+            <?php if ($jobs): ?>
+                <?php foreach ($jobs as $job): ?>
+                    <div><?php echo $job->name ?></div>
+                    <div><?php echo $job->getShortDescription() ?></div>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </div>
     </div>
 </div>

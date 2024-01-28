@@ -3,11 +3,22 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Controller\Traits\PaginationTrait;
+
 /**
  * Jobs Controller
+ *
+ * @property \App\Model\Table\JobsTable $Jobs
  */
 class JobsController extends AppController
 {
+    use PaginationTrait;
+
+    /**
+     * Helpers used by this controller
+     *
+     * @var array
+     */
     public $helpers = ["MyUrl"];
 
     /**
@@ -18,80 +29,18 @@ class JobsController extends AppController
      *
      * @return void
      */
-    public function index()
+    public function index(): void
     {
-        // Define pagination options
-        $limitOptions = [20, 50, 100];
-        $defaultLimit = 20;
-
-        // Retrieve limit from URL query parameter 'per_page'
-        $requestedLimit = $this->request->getQuery("per_page", $defaultLimit);
-
-        // Find the closest limit option
-        $closestLimit = $defaultLimit;
-        $closestDifference = PHP_INT_MAX;
-        foreach ($limitOptions as $option) {
-            $difference = abs($requestedLimit - $option);
-            if ($difference < $closestDifference) {
-                $closestLimit = $option;
-                $closestDifference = $difference;
-            }
-        }
         $searchTerm = $this->request->getQuery("search");
+        $query = $this->Jobs->searchJobs($searchTerm);
 
-        $conditions = [];
-
-        // Add search condition for the job fields and job category name
-        if ($searchTerm) {
-            // Build the conditions for your search
-            $conditions = [
-                "OR" => [
-                    "JobCategories.name LIKE" => "%$searchTerm%",
-                    "JobTypes.name LIKE" => "%$searchTerm%",
-                    "Jobs.name LIKE" => "%$searchTerm%",
-                    "Jobs.description LIKE" => "%$searchTerm%",
-                    "Jobs.detail LIKE" => "%$searchTerm%",
-                    "Jobs.business_skill LIKE" => "%$searchTerm%",
-                    "Jobs.knowledge LIKE" => "%$searchTerm%",
-                    "Jobs.location LIKE" => "%$searchTerm%",
-                    "Jobs.activity LIKE" => "%$searchTerm%",
-                    "Jobs.salary_statistic_group LIKE" => "%$searchTerm%",
-                    "Jobs.salary_range_remarks LIKE" => "%$searchTerm%",
-                    "Jobs.restriction LIKE" => "%$searchTerm%",
-                    "Jobs.remarks LIKE" => "%$searchTerm%",
-                    "Personalities.name LIKE" => "%$searchTerm%",
-                    "PracticalSkills.name LIKE" => "%$searchTerm%",
-                    "BasicAbilities.name LIKE" => "%$searchTerm%",
-                ],
-                "Jobs.publish_status" => 1,
-                "Jobs.deleted IS NULL",
-            ];
-        }
-
-        // Build the query
-        $query = $this->Jobs
-            ->find()
-            ->select(["Jobs.id", "Jobs.name", "Jobs.description"])
-            ->where($conditions)
-            ->group(["Jobs.id"])
-            ->orderDesc("Jobs.sort_order")
-            ->orderDesc("Jobs.id")
-            ->leftJoinWith("Personalities")
-            ->leftJoinWith("PracticalSkills")
-            ->leftJoinWith("BasicAbilities")
-            ->contain(["JobCategories", "JobTypes"]);
-
-        // Paginate the results with the closest limit option
-        $jobs = $this->paginate(
-            $query, [
-            "limit" => $closestLimit,
-            "maxLimit" => 100,
-            ]
-        );
+        // Paginate the results using the PaginationTrait
+        $jobs = $this->paginateWithClosestLimit($query);
 
         // Set pagination options to be passed to the view
-        $this->set(compact("jobs", "limitOptions", "defaultLimit"));
+        $this->set(compact("jobs"));
     }
+
     /**
      * View method
      *

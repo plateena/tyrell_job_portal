@@ -42,205 +42,210 @@ class JobsTable extends Table
     /**
      * Initialize method
      *
-     * @param array<string, mixed> $config The configuration for the Table.
+     * @param  array<string, mixed> $config The configuration for the Table.
      * @return void
      */
     public function initialize(array $config): void
     {
         parent::initialize($config);
 
-        $this->setTable('jobs');
-        $this->setDisplayField('name');
-        $this->setPrimaryKey('id');
+        $this->setTable("jobs");
+        $this->setDisplayField("name");
+        $this->setPrimaryKey("id");
 
-        $this->addBehavior('Timestamp');
+        $this->addBehavior("Timestamp");
 
-        $this->belongsTo('JobCategories', [
-            'foreignKey' => 'job_category_id',
-            'joinType' => 'LEFT',
-        ]);
+        $this->belongsTo(
+            "JobCategories", [
+            "foreignKey" => "job_category_id",
+            "joinType" => "LEFT",
+            ]
+        );
 
-        $this->belongsTo('JobTypes', [
-            'foreignKey' => 'job_type_id',
-            'joinType' => 'LEFT',
-        ]);
-        
-        $this->hasMany('JobsCareerPaths', [
-            'foreignKey' => 'job_id',
-            'joinType' => 'LEFT',
-        ]);
+        $this->belongsTo(
+            "JobTypes", [
+            "foreignKey" => "job_type_id",
+            "joinType" => "LEFT",
+            ]
+        );
 
-        $this->hasMany('JobsRecQualifications', [
-            'foreignKey' => 'job_id',
-            'joinType' => 'LEFT',
-        ]);
+        $this->hasMany(
+            "JobsCareerPaths", [
+            "foreignKey" => "job_id",
+            "joinType" => "LEFT",
+            ]
+        );
 
-        $this->hasMany('JobsReqQualifications', [
-            'foreignKey' => 'job_id',
-            'joinType' => 'LEFT',
-        ]);
+        $this->hasMany(
+            "JobsRecQualifications", [
+            "foreignKey" => "job_id",
+            "joinType" => "LEFT",
+            ]
+        );
 
-        $this->hasMany('JobsTools', [
-            'foreignKey' => 'job_id',
-            'joinType' => 'LEFT',
-        ]);
+        $this->hasMany(
+            "JobsReqQualifications", [
+            "foreignKey" => "job_id",
+            "joinType" => "LEFT",
+            ]
+        );
 
-        $this->belongsToMany('BasicAbilities', [
-            'foreignKey' => 'job_id',
-            'targetForeignKey' => 'basic_ability_id',
-            'joinTable' => 'jobs_basic_abilities',
-            'joinType' => 'LEFT',
-        ]);
+        $this->hasMany(
+            "JobsTools", [
+            "foreignKey" => "job_id",
+            "joinType" => "LEFT",
+            ]
+        );
 
-        $this->belongsToMany('Personalities', [
-            'className' => 'Personalities',
-            'joinTable' => 'jobs_personalities',
-            'foreignKey' => 'job_id',
-            'targetForeignKey' => 'personality_id'
-        ]);
+        $this->belongsToMany(
+            "BasicAbilities", [
+            "foreignKey" => "job_id",
+            "targetForeignKey" => "basic_ability_id",
+            "joinTable" => "jobs_basic_abilities",
+            "joinType" => "LEFT",
+            ]
+        );
 
-        $this->belongsToMany('PracticalSkills', [
-            'foreignKey' => 'job_id',
-            'targetForeignKey' => 'practical_skill_id',
-            'joinTable' => 'jobs_practical_skills',
-        ]);
+        $this->belongsToMany(
+            "Personalities", [
+            "className" => "Personalities",
+            "joinTable" => "jobs_personalities",
+            "foreignKey" => "job_id",
+            "targetForeignKey" => "personality_id",
+            ]
+        );
+
+        $this->belongsToMany(
+            "PracticalSkills", [
+            "foreignKey" => "job_id",
+            "targetForeignKey" => "practical_skill_id",
+            "joinTable" => "jobs_practical_skills",
+            ]
+        );
     }
 
     /**
      * Default validation rules.
      *
-     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @param  \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
     public function validationDefault(Validator $validator): Validator
     {
         $validator
-            ->scalar('name')
-            ->maxLength('name', 255)
-            ->requirePresence('name', 'create')
-            ->notEmptyString('name');
+            ->scalar("name")
+            ->maxLength("name", 255)
+            ->requirePresence("name", "create")
+            ->notEmptyString("name");
+
+        $validator->allowEmptyString("media_id");
+
+        $validator->notEmptyString("job_category_id");
+
+        $validator->notEmptyString("job_type_id");
+
+        $validator->scalar("description")->allowEmptyString("description");
+
+        $validator->scalar("detail")->allowEmptyString("detail");
 
         $validator
-            ->allowEmptyString('media_id');
+            ->scalar("business_skill")
+            ->maxLength("business_skill", 1000)
+            ->allowEmptyString("business_skill");
 
         $validator
-            ->notEmptyString('job_category_id');
+            ->scalar("knowledge")
+            ->maxLength("knowledge", 1000)
+            ->allowEmptyString("knowledge");
 
         $validator
-            ->notEmptyString('job_type_id');
+            ->scalar("location")
+            ->maxLength("location", 1000)
+            ->allowEmptyString("location");
 
         $validator
-            ->scalar('description')
-            ->allowEmptyString('description');
+            ->scalar("activity")
+            ->maxLength("activity", 1000)
+            ->allowEmptyString("activity");
 
         $validator
-            ->scalar('detail')
-            ->allowEmptyString('detail');
+            ->boolean("academic_degree_doctor")
+            ->allowEmptyString("academic_degree_doctor");
 
         $validator
-            ->scalar('business_skill')
-            ->maxLength('business_skill', 1000)
-            ->allowEmptyString('business_skill');
+            ->boolean("academic_degree_master")
+            ->allowEmptyString("academic_degree_master");
 
         $validator
-            ->scalar('knowledge')
-            ->maxLength('knowledge', 1000)
-            ->allowEmptyString('knowledge');
+            ->boolean("academic_degree_professional")
+            ->allowEmptyString("academic_degree_professional");
 
         $validator
-            ->scalar('location')
-            ->maxLength('location', 1000)
-            ->allowEmptyString('location');
+            ->boolean("academic_degree_bachelor")
+            ->allowEmptyString("academic_degree_bachelor");
 
         $validator
-            ->scalar('activity')
-            ->maxLength('activity', 1000)
-            ->allowEmptyString('activity');
+            ->scalar("salary_statistic_group")
+            ->maxLength("salary_statistic_group", 255)
+            ->allowEmptyString("salary_statistic_group");
 
         $validator
-            ->boolean('academic_degree_doctor')
-            ->allowEmptyString('academic_degree_doctor');
+            ->decimal("salary_range_first_year")
+            ->allowEmptyString("salary_range_first_year");
 
         $validator
-            ->boolean('academic_degree_master')
-            ->allowEmptyString('academic_degree_master');
+            ->decimal("salary_range_average")
+            ->allowEmptyString("salary_range_average");
 
         $validator
-            ->boolean('academic_degree_professional')
-            ->allowEmptyString('academic_degree_professional');
+            ->scalar("salary_range_remarks")
+            ->maxLength("salary_range_remarks", 1000)
+            ->allowEmptyString("salary_range_remarks");
 
         $validator
-            ->boolean('academic_degree_bachelor')
-            ->allowEmptyString('academic_degree_bachelor');
+            ->scalar("restriction")
+            ->maxLength("restriction", 1000)
+            ->allowEmptyString("restriction");
 
         $validator
-            ->scalar('salary_statistic_group')
-            ->maxLength('salary_statistic_group', 255)
-            ->allowEmptyString('salary_statistic_group');
+            ->scalar("estimated_total_workers")
+            ->maxLength("estimated_total_workers", 255)
+            ->allowEmptyString("estimated_total_workers");
 
         $validator
-            ->decimal('salary_range_first_year')
-            ->allowEmptyString('salary_range_first_year');
+            ->scalar("remarks")
+            ->maxLength("remarks", 1000)
+            ->allowEmptyString("remarks");
 
         $validator
-            ->decimal('salary_range_average')
-            ->allowEmptyString('salary_range_average');
+            ->scalar("url")
+            ->maxLength("url", 255)
+            ->allowEmptyString("url");
 
         $validator
-            ->scalar('salary_range_remarks')
-            ->maxLength('salary_range_remarks', 1000)
-            ->allowEmptyString('salary_range_remarks');
+            ->scalar("seo_description")
+            ->maxLength("seo_description", 1000)
+            ->allowEmptyString("seo_description");
 
         $validator
-            ->scalar('restriction')
-            ->maxLength('restriction', 1000)
-            ->allowEmptyString('restriction');
+            ->scalar("seo_keywords")
+            ->maxLength("seo_keywords", 255)
+            ->allowEmptyString("seo_keywords");
+
+        $validator->integer("sort_order")->notEmptyString("sort_order");
 
         $validator
-            ->scalar('estimated_total_workers')
-            ->maxLength('estimated_total_workers', 255)
-            ->allowEmptyString('estimated_total_workers');
+            ->boolean("publish_status")
+            ->requirePresence("publish_status", "create")
+            ->notEmptyString("publish_status");
+
+        $validator->integer("version")->notEmptyString("version");
 
         $validator
-            ->scalar('remarks')
-            ->maxLength('remarks', 1000)
-            ->allowEmptyString('remarks');
+            ->requirePresence("created_by", "create")
+            ->notEmptyString("created_by");
 
-        $validator
-            ->scalar('url')
-            ->maxLength('url', 255)
-            ->allowEmptyString('url');
-
-        $validator
-            ->scalar('seo_description')
-            ->maxLength('seo_description', 1000)
-            ->allowEmptyString('seo_description');
-
-        $validator
-            ->scalar('seo_keywords')
-            ->maxLength('seo_keywords', 255)
-            ->allowEmptyString('seo_keywords');
-
-        $validator
-            ->integer('sort_order')
-            ->notEmptyString('sort_order');
-
-        $validator
-            ->boolean('publish_status')
-            ->requirePresence('publish_status', 'create')
-            ->notEmptyString('publish_status');
-
-        $validator
-            ->integer('version')
-            ->notEmptyString('version');
-
-        $validator
-            ->requirePresence('created_by', 'create')
-            ->notEmptyString('created_by');
-
-        $validator
-            ->dateTime('deleted')
-            ->allowEmptyDateTime('deleted');
+        $validator->dateTime("deleted")->allowEmptyDateTime("deleted");
 
         return $validator;
     }
@@ -249,14 +254,77 @@ class JobsTable extends Table
      * Returns a rules checker object that will be used for validating
      * application integrity.
      *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @param  \Cake\ORM\RulesChecker $rules The rules object to be modified.
      * @return \Cake\ORM\RulesChecker
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn('job_category_id', 'JobCategories'), ['errorField' => 'job_category_id']);
-        $rules->add($rules->existsIn('job_type_id', 'JobTypes'), ['errorField' => 'job_type_id']);
+        $rules->add(
+            $rules->existsIn("job_category_id", "JobCategories"), [
+            "errorField" => "job_category_id",
+            ]
+        );
+        $rules->add(
+            $rules->existsIn("job_type_id", "JobTypes"), [
+            "errorField" => "job_type_id",
+            ]
+        );
 
         return $rules;
+    }
+
+    /**
+     * searchJobs method
+     *
+     * Search for jobs based on the provided search term, including job fields,
+     * job category names, and associated personalities, practical skills, and basic abilities.
+     *
+     * @param  string $searchTerm The search term to look for in job fields and associated entities.
+     * @return \Cake\ORM\Query A query object representing the search.
+     */
+    public function searchJobs(string $searchTerm = ""): SelectQuery
+    {
+        $conditions = [];
+
+        // Add search condition for the job fields and job category name
+        if (!empty($searchTerm)) {
+            // Build the conditions for the search
+            $conditions = [
+                "OR" => [
+                    "JobCategories.name LIKE" => "%$searchTerm%",
+                    "JobTypes.name LIKE" => "%$searchTerm%",
+                    "Jobs.name LIKE" => "%$searchTerm%",
+                    "Jobs.description LIKE" => "%$searchTerm%",
+                    "Jobs.detail LIKE" => "%$searchTerm%",
+                    "Jobs.business_skill LIKE" => "%$searchTerm%",
+                    "Jobs.knowledge LIKE" => "%$searchTerm%",
+                    "Jobs.location LIKE" => "%$searchTerm%",
+                    "Jobs.activity LIKE" => "%$searchTerm%",
+                    "Jobs.salary_statistic_group LIKE" => "%$searchTerm%",
+                    "Jobs.salary_range_remarks LIKE" => "%$searchTerm%",
+                    "Jobs.restriction LIKE" => "%$searchTerm%",
+                    "Jobs.remarks LIKE" => "%$searchTerm%",
+                    "Personalities.name LIKE" => "%$searchTerm%",
+                    "PracticalSkills.name LIKE" => "%$searchTerm%",
+                    "BasicAbilities.name LIKE" => "%$searchTerm%",
+                ],
+                "Jobs.publish_status" => true,
+                "Jobs.deleted IS NULL",
+            ];
+        }
+
+        // Build the query
+        $query = $this->find()
+            ->select(["Jobs.id", "Jobs.name", "Jobs.description"])
+            ->where($conditions)
+            ->group(["Jobs.id"])
+            ->orderDesc("Jobs.sort_order")
+            ->orderDesc("Jobs.id")
+            ->leftJoinWith("Personalities")
+            ->leftJoinWith("PracticalSkills")
+            ->leftJoinWith("BasicAbilities")
+            ->contain(["JobCategories", "JobTypes"]);
+
+        return $query;
     }
 }
