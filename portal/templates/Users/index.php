@@ -10,24 +10,24 @@
         <?= $this->Html->link(__('New User'), ['action' => 'add'], ['class' => 'btn btn-primary']) ?>
     </div>
     <div class="table-responsive">
-        <table class="table table-striped">
-            <thead class="bg-dark text-white">
+        <table class="table table-bordered table-striped">
+            <thead class="table-light">
                 <tr>
-                    <th class="text-white"><?= $this->Paginator->sort('ID') ?></th>
-                    <th class="text-white"><?= $this->Paginator->sort('Email') ?></th>
-                    <th class="text-white"><?= $this->Paginator->sort('Created') ?></th>
-                    <th class="text-white"><?= $this->Paginator->sort('Modified') ?></th>
-                    <th class="actions"><?= __('Actions') ?></th>
+                    <th class="text-white text-center"><?= $this->Paginator->sort('ID') ?></th>
+                    <th class="text-white text-center"><?= $this->Paginator->sort('Email') ?></th>
+                    <th class="text-white text-center"><?= $this->Paginator->sort('Created') ?></th>
+                    <th class="text-white text-center"><?= $this->Paginator->sort('Modified') ?></th>
+                    <th class="actions text-center"><?= __('Actions') ?></th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($users as $user): ?>
                     <tr>
-                        <td><?= $this->Number->format($user->id) ?></td>
+                        <td class="text-center"><?= $this->Number->format($user->id) ?></td>
                         <td><?= h($user->email) ?></td>
-                        <td><?= h($user->created->format('d M Y H:i:s')) ?></td>
-                        <td><?= h($user->modified->format('d M Y H:i:s')) ?></td>
-                        <td class="actions">
+                        <td class="text-center"><?= h($user->created->format('d M Y H:i:s')) ?></td>
+                        <td class="text-center"><?= h($user->modified->format('d M Y H:i:s')) ?></td>
+                        <td class="actions text-center">
                                 <?= $this->Html->link(__('View'), ['action' => 'view', $user->id], ['class' => 'btn btn-sm btn-outline-secondary me-1 text-decoration-none']) ?>
                             <?php if ($user->id !== 1): ?>
                                 <?= $this->Html->link(__('Edit'), ['action' => 'edit', $user->id], ['class' => 'btn btn-sm btn-outline-secondary me-1 text-decoration-none']) ?>
