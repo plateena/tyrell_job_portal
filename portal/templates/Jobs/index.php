@@ -18,7 +18,7 @@ $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
                 "id" => "search-form"
             ]); ?>
             <div class="input-group">
-                <input id="search-input" class="form-control" name="search" type="text" placeholder="Search..." value="<?php echo h($searchTerm); ?>">
+                <input id="search-input" class="form-control" name="search" type="text" placeholder="Search the jobs" value="<?php echo h($searchTerm); ?>">
                 <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i> Search</button>
                 <button id="reset-btn" class="btn btn-secondary" type="button"><i class="bi bi-arrow-counterclockwise"></i> Reset</button>
             </div>
@@ -61,15 +61,15 @@ $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
     <div class="mt-4">
         <label class="me-2">Per page:</label>
         <div class="per-page-group btn-group">
-            <label class="btn <?php echo ($perPage == $perPageOptions[0]) ? ' active' : ''; ?>">
-                <?php echo $this->Html->link($perPageOptions[0], ['?' => ['per_page' => $perPageOptions[0]]]); ?>
-            </label>
-            <label class="btn <?php echo ($perPage == $perPageOptions[1]) ? ' active' : ''; ?>">
-                <?php echo $this->Html->link($perPageOptions[1], ['?' => ['per_page' => $perPageOptions[1]]]); ?>
-            </label>
-            <label class="btn <?php echo ($perPage == $perPageOptions[2]) ? ' active' : ''; ?>">
-                <?php echo $this->Html->link($perPageOptions[2], ['?' => ['per_page' => $perPageOptions[2]]]); ?>
-            </label>
+            <?php foreach ($perPageOptions as $perPageOption): ?>
+                <label class="btn per-page <?php echo ($perPage == $perPageOption) ? ' active' : ''; ?>">
+                    <?php  if($perPage == $perPageOption): ?>
+                        <?php echo $this->Html->link($perPageOption, array('?' => ['per_page'=> $perPageOption]),array('onclick'=>'return false;', 'disabled' => 'disabled')); ?>
+                    <?php  else: ?>
+                        <?php echo $this->Html->link($perPageOption, ['?' => ['per_page' => $perPageOption]]); ?>
+                    <?php  endif; ?>
+                </label>
+            <?php endforeach; ?>
         </div>
     </div>
 </div>

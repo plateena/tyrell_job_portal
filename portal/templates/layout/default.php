@@ -28,7 +28,7 @@
     </main>
 
     <!-- Footer Section -->
-    <div class="container">
+    <div class="mt-5 pt-5">
         <?= $this->element('layout/footer'); ?>
     </div>
 </body>
