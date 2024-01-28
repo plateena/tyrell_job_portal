@@ -1,1 +1,34 @@
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
+
+/* Pagination Styles */
+ul.pagination {
+    display: flex;
+    list-style: none;
+    padding: 0 20;
+    justify-content: center;
+
+    li {
+        border: 1px solid black;
+        border-color: #007bff;
+        border-radius: 3px;
+        margin-left: 3px;
+        padding: 0px 12px;
+
+        &.disabled {
+            display: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: blue;
+        }
+
+        &.active {
+            a {
+                cursor: normal;
+                color: gray;
+            }
+        }
+    }
+}
+

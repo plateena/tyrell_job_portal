@@ -49,23 +49,25 @@ $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
     </div>
 
     <?php if ($this->Paginator->hasNext()): ?>
-        <div class="pagination mt-4">
-            <?php echo $this->Paginator->prev(__("Previous"), ['class' => 'btn btn-secondary']); ?>
-            <?php echo $this->Paginator->numbers(['class' => 'btn btn-secondary']); ?>
-            <?php echo $this->Paginator->next(__("Next"), ['class' => 'btn btn-secondary']); ?>
+        <div class="pagination mt-4 d-flex justify-content-center">
+            <ul class="pagination">
+                <?php echo $this->Paginator->prev(__("<<"), ['class' => 'btn btn-secondary']); ?>
+                <?php echo $this->Paginator->numbers(['class' => 'btn btn-secondary', 'template' => 'paginator']); ?>
+                <?php echo $this->Paginator->next(__(">>"), ['class' => 'btn btn-secondary']); ?>
+            </ul>
         </div>
     <?php endif; ?>
 
     <div class="mt-4">
         <label class="me-2">Per page:</label>
-        <div class="btn-group">
-            <label class="btn btn-secondary<?php echo ($perPage == $perPageOptions[0]) ? ' active' : ''; ?>">
+        <div class="per-page-group btn-group">
+            <label class="btn <?php echo ($perPage == $perPageOptions[0]) ? ' active' : ''; ?>">
                 <?php echo $this->Html->link($perPageOptions[0], ['?' => ['per_page' => $perPageOptions[0]]]); ?>
             </label>
-            <label class="btn btn-secondary<?php echo ($perPage == $perPageOptions[1]) ? ' active' : ''; ?>">
+            <label class="btn <?php echo ($perPage == $perPageOptions[1]) ? ' active' : ''; ?>">
                 <?php echo $this->Html->link($perPageOptions[1], ['?' => ['per_page' => $perPageOptions[1]]]); ?>
             </label>
-            <label class="btn btn-secondary<?php echo ($perPage == $perPageOptions[2]) ? ' active' : ''; ?>">
+            <label class="btn <?php echo ($perPage == $perPageOptions[2]) ? ' active' : ''; ?>">
                 <?php echo $this->Html->link($perPageOptions[2], ['?' => ['per_page' => $perPageOptions[2]]]); ?>
             </label>
         </div>
