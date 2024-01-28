@@ -8,7 +8,7 @@ if (!isset($params['escape']) || $params['escape'] !== false) {
     $message = h($message);
 }
 ?>
-<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 3000; bottom: 50px;">
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 3000; bottom: 50px !important;">
   <div id="liveToast" class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="toast-header bg-danger text-white">
       <strong class="me-auto">Error</strong>
