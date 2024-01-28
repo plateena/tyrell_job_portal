@@ -1,44 +1,45 @@
-# Dockerfile for CakePHP with Nginx and PHP-FPM
+# Dockerfile for CakePHP with Nginx, PHP-FPM, npm, and running npm build on container start
 FROM php:8.1-fpm
 
 # Set working directory
 WORKDIR /var/www/html
 
 # Install required extensions and tools
-# Install development tools and libraries
-RUN apt-get update && apt-get install -y \
-    wget \
+RUN apt-get update && \
+    apt-get install -y \
+    curl \
     zip \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
     libpng-dev \
     libzip-dev \
-    libicu-dev \ 
+    libicu-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) gd mysqli pdo pdo_mysql zip intl
+    && docker-php-ext-install -j$(nproc) gd mysqli pdo pdo_mysql zip intl \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install Composer
-RUN wget -O composer-setup.php --show-progress=on https://getcomposer.org/installer && \
-    php composer-setup.php --quiet --install-dir=/usr/local/bin --filename=composer && \
-    rm composer-setup.php
+# Use a single RUN instruction to install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Copy CakePHP application files into the container
+# Use a single RUN instruction to install Node.js and npm
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs && \
+    rm -rf /var/lib/apt/lists/*
+
+# Copy the CakePHP application files into the container
 COPY ./portal /var/www/html
 
 # Install CakePHP dependencies
 RUN composer install --no-plugins --no-scripts
 
-# Adjust file permissions
-RUN chown -R www-data:www-data /var/www/html
-RUN chmod +x -R /var/www/html/bin
-RUN chmod +w -R /var/www/html/logs
-# RUN chown -R www-data:www-data /var/www/html && \
-#     find /var/www/html -type d -exec chmod 755 {} \; && \
-#     find /var/www/html -type f -exec chmod 755 {} \; && \
-#     chmod -R 777 /var/www/html/tmp && \
-#     chmod -R 777 /var/www/html/tmp/cache
+# Set file permissions for CakePHP directories
+RUN chown -R www-data:www-data /var/www/html && \
+    chmod -R 755 /var/www/html && \
+    chmod -R 777 /var/www/html/tmp && \
+    chmod -R 777 /var/www/html/logs
 
 # Expose port 9000 for PHP-FPM
 EXPOSE 9000
-# CMD specifies the command to run on container start
-CMD ["php-fpm"]
+
+# Run npm build on container start
+CMD bash -c "npm ci && npm run build && php-fpm"

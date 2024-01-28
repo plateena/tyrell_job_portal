@@ -17,3 +17,5 @@ portal/tmp/tests/*
 !portal!/tmp/tests/empty
 portal/logs/*
 !/portal/logs/empty
+
+portal/node_modules

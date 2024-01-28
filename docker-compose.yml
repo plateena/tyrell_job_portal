@@ -33,6 +33,7 @@ services:
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./portal:/var/www/html
     environment:
       DB_HOST: mysql
     depends_on:
