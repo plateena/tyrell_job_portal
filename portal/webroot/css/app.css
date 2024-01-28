@@ -19,3 +19,7 @@ ul.pagination {
     ul.pagination li.active a {
       cursor: normal;
       color: gray; }
+
+nav.navbar .nav-link {
+  font-weight: bolder;
+  color: white; }
