@@ -57,34 +57,48 @@ class JobsTable extends Table
 
         $this->belongsTo('JobCategories', [
             'foreignKey' => 'job_category_id',
-            'joinType' => 'INNER',
+            'joinType' => 'LEFT',
         ]);
+
         $this->belongsTo('JobTypes', [
             'foreignKey' => 'job_type_id',
-            'joinType' => 'INNER',
+            'joinType' => 'LEFT',
         ]);
+        
         $this->hasMany('JobsCareerPaths', [
             'foreignKey' => 'job_id',
+            'joinType' => 'LEFT',
         ]);
+
         $this->hasMany('JobsRecQualifications', [
             'foreignKey' => 'job_id',
+            'joinType' => 'LEFT',
         ]);
+
         $this->hasMany('JobsReqQualifications', [
             'foreignKey' => 'job_id',
+            'joinType' => 'LEFT',
         ]);
+
         $this->hasMany('JobsTools', [
             'foreignKey' => 'job_id',
+            'joinType' => 'LEFT',
         ]);
+
         $this->belongsToMany('BasicAbilities', [
             'foreignKey' => 'job_id',
             'targetForeignKey' => 'basic_ability_id',
             'joinTable' => 'jobs_basic_abilities',
+            'joinType' => 'LEFT',
         ]);
+
         $this->belongsToMany('Personalities', [
-            'foreignKey' => 'job_id',
-            'targetForeignKey' => 'personality_id',
+            'className' => 'Personalities',
             'joinTable' => 'jobs_personalities',
+            'foreignKey' => 'job_id',
+            'targetForeignKey' => 'personality_id'
         ]);
+
         $this->belongsToMany('PracticalSkills', [
             'foreignKey' => 'job_id',
             'targetForeignKey' => 'practical_skill_id',

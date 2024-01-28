@@ -5,7 +5,6 @@ namespace App\Controller;
 
 /**
  * Jobs Controller
- *
  */
 class JobsController extends AppController
 {
@@ -14,7 +13,7 @@ class JobsController extends AppController
     /**
      * Index method
      *
-     * Retrieve jobs and paginate the results with the closest limit option to the 'per_page' query parameter.
+     * Retrieve jobs, left join with job_categories, and paginate the results with the closest limit option to the 'per_page' query parameter.
      * Default limit options are 20, 50, and 100 per page.
      *
      * @return void
@@ -30,7 +29,6 @@ class JobsController extends AppController
 
         // Find the closest limit option
         $closestLimit = $defaultLimit;
-
         $closestDifference = PHP_INT_MAX;
         foreach ($limitOptions as $option) {
             $difference = abs($requestedLimit - $option);
@@ -39,22 +37,65 @@ class JobsController extends AppController
                 $closestDifference = $difference;
             }
         }
+        $searchTerm = $this->request->getQuery("search");
 
-        // Retrieve jobs sorted by sort_order and paginate with the closest limit option
-        $query = $this->Jobs->find()->order(["sort_order" => "ASC"]);
-        $jobs = $this->paginate($query, [
+        $conditions = [];
+
+        // Add search condition for the job fields and job category name
+        if ($searchTerm) {
+            // Build the conditions for your search
+            $conditions = [
+                "OR" => [
+                    "JobCategories.name LIKE" => "%$searchTerm%",
+                    "JobTypes.name LIKE" => "%$searchTerm%",
+                    "Jobs.name LIKE" => "%$searchTerm%",
+                    "Jobs.description LIKE" => "%$searchTerm%",
+                    "Jobs.detail LIKE" => "%$searchTerm%",
+                    "Jobs.business_skill LIKE" => "%$searchTerm%",
+                    "Jobs.knowledge LIKE" => "%$searchTerm%",
+                    "Jobs.location LIKE" => "%$searchTerm%",
+                    "Jobs.activity LIKE" => "%$searchTerm%",
+                    "Jobs.salary_statistic_group LIKE" => "%$searchTerm%",
+                    "Jobs.salary_range_remarks LIKE" => "%$searchTerm%",
+                    "Jobs.restriction LIKE" => "%$searchTerm%",
+                    "Jobs.remarks LIKE" => "%$searchTerm%",
+                    "Personalities.name LIKE" => "%$searchTerm%",
+                    "PracticalSkills.name LIKE" => "%$searchTerm%",
+                    "BasicAbilities.name LIKE" => "%$searchTerm%",
+                ],
+                "Jobs.publish_status" => 1,
+                "Jobs.deleted IS NULL",
+            ];
+        }
+
+        // Build the query
+        $query = $this->Jobs
+            ->find()
+            ->select(["Jobs.id", "Jobs.name", "Jobs.description"])
+            ->where($conditions)
+            ->group(["Jobs.id"])
+            ->orderDesc("Jobs.sort_order")
+            ->orderDesc("Jobs.id")
+            ->leftJoinWith("Personalities")
+            ->leftJoinWith("PracticalSkills")
+            ->leftJoinWith("BasicAbilities")
+            ->contain(["JobCategories", "JobTypes"]);
+
+        // Paginate the results with the closest limit option
+        $jobs = $this->paginate(
+            $query, [
             "limit" => $closestLimit,
             "maxLimit" => 100,
-        ]);
+            ]
+        );
 
         // Set pagination options to be passed to the view
         $this->set(compact("jobs", "limitOptions", "defaultLimit"));
     }
-
     /**
      * View method
      *
-     * @param string|null $id Job id.
+     * @param  string|null $id Job id.
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
@@ -89,7 +130,7 @@ class JobsController extends AppController
     /**
      * Edit method
      *
-     * @param string|null $id Job id.
+     * @param  string|null $id Job id.
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
@@ -113,7 +154,7 @@ class JobsController extends AppController
     /**
      * Delete method
      *
-     * @param string|null $id Job id.
+     * @param  string|null $id Job id.
      * @return \Cake\Http\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
