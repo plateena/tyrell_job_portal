@@ -1,4 +1,3 @@
-<!-- File: src/Template/Layout/default.ctp -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,12 +14,9 @@
 
     <!-- Main Content Section -->
     <main>
-        <?php echo $this->fetch('content'); ?>
+        <?= $this->fetch('content'); ?>
     </main>
 
-    <!-- Footer Section -->
-    <footer>
-        <?php echo $this->fetch('footer'); ?>
-    </footer>
+    <?= $this->element('layout/footer'); ?>
 </body>
 </html>
