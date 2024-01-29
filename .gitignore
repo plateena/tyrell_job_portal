@@ -19,3 +19,4 @@ portal/logs/*
 !/portal/logs/empty
 
 portal/node_modules
+portal/.seeded

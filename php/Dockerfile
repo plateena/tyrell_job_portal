@@ -27,19 +27,17 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
     rm -rf /var/lib/apt/lists/*
 
 # Copy the CakePHP application files into the container
-COPY ./portal /var/www/html
+COPY ["./portal", "/var/www/html/"]
 
 # Install CakePHP dependencies
 RUN composer install --no-plugins --no-scripts
 
 # Set file permissions for CakePHP directories
 RUN chown -R www-data:www-data /var/www/html && \
-    chmod -R 755 /var/www/html && \
-    chmod -R 777 /var/www/html/tmp && \
-    chmod -R 777 /var/www/html/logs
+    chmod -R 755 /var/www/html
 
 # Expose port 9000 for PHP-FPM
 EXPOSE 9000
 
-# Run npm build on container start
-CMD bash -c "npm ci && npm run build && php-fpm"
+# Run npm build, composer install, and migrations seed on container start if not already seeded
+CMD bash -c "cd /var/www/html && composer install && npm ci && npm run build && [ ! -f .seeded ] && ./bin/cake migrations seed && touch .seeded && php-fpm"
